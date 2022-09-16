@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repoitems-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: repoitem
+  template:
+    metadata:
+      labels:
+        app: repoitem
+    spec:
+      containers:
+        - name: repoitem
+          image: appledog2k/repoitem:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: repoitem-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: repoitem
+  ports:
+    - name: repoitem
+      protocol: TCP
+      port: 80
+      targetPort: 80
